@@ -40,7 +40,8 @@ The current version of JDBC is 4.3. It is the stable release since 21st Septembe
 
     
 ## Instance Of Calls Table
-![App Screenshot](https://github.com/dhananjaySinghMakkerr/Call-Center-Analytics/blob/main/javaPro.png)
+![Calls Table Instance](https://github.com/dhananjaySinghMakkerr/Call-Center-Analytics/blob/master/CallsTable.png)
+
 
 
 ## Screenshots
