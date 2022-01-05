@@ -23,20 +23,13 @@ JDBC-ODBC Bridge Driver,
 Native Driver,
 Network Protocol Driver, and
 Thin Driver
-We have discussed the above four drivers in the next chapter.
+
 
 We can use JDBC API to access tabular data stored in any relational database. By the help of JDBC API, we can save, update, delete and fetch data from the database. It is like Open Database Connectivity (ODBC) provided by Microsoft.
 
 JDBC (Java Database Connectivity) 
-The current version of JDBC is 4.3. It is the stable release since 21st September, 2017. It is based on the X/Open SQL Call Level Interface. The java.sql package contains classes and interfaces for JDBC API. A list of popular interfaces of JDBC API are given below:
+The current version of JDBC is 4.3. It is the stable release since 21st September, 2017. It is based on the X/Open SQL Call Level Interface. The java.sql package contains classes and interfaces for JDBC API. 
 
-
-## Connection to AWS MySQL Database
-```bash
-1 HostName:-callrecord.cjqbe0i8s3kd.us-east-1.rds.amazonaws.com 
-2 UserName:- admin
-3 Password:- callrecord
-```
 
     
 ## Instance Of Tables
