@@ -3,7 +3,9 @@
 # Call-Center Analytics
 
 A Java program which processes data from database of a Call-Center and
-derives some important results.
+derives some important results.I have used AWS to deploy the database for the above project.
+The login credentials are shared in the CallCenter.properties file.
+
 
 
 
