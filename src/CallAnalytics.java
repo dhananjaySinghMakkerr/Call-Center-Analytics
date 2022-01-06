@@ -19,11 +19,31 @@ public class CallAnalytics {
             String pass = p.getProperty("MYSQLJDBC.password");
             Class.forName(driverClass);
             Connection con = DriverManager.getConnection(url, username, pass);
-            PreparedStatement ps = con.prepareStatement("SELECT count(*) as Volume,Day FROM Calls group by Day order by Volume DESC limit 1");
+            PreparedStatement ps = con.prepareStatement("SELECT\n" +
+                    "  count(*) AS VOLUME,\n" +
+                    "  dayname(Start_time) AS Day\n" +
+                    "FROM\n" +
+                    "  Calls\n" +
+                    "GROUP BY\n" +
+                    "  Day\n" +
+                    "ORDER BY\n" +
+                    "  VOLUME DESC\n" +
+                    "limit\n" +
+                    "  1");
             ResultSet s = ps.executeQuery();
             while (s.next())
                 System.out.println("Day of The week when the call Volume is highest is: " + s.getString("Day") + " with number of calls being " + s.getString("Volume"));
-            s = ps.executeQuery("SELECT sum(duration) as Total_Call_Duration,Day FROM Calls group by Day limit 1;");
+            s = ps.executeQuery("SELECT\n" +
+                    "  sum(Duration) AS Total_Call_Duration,\n" +
+                    "  dayname(Start_time) AS Day\n" +
+                    "FROM\n" +
+                    "  Calls\n" +
+                    "GROUP BY\n" +
+                    "  Day\n" +
+                    "ORDER BY\n" +
+                    "  Total_Call_Duration DESC\n" +
+                    "limit\n" +
+                    "  1;");
             while (s.next()) {
                 String min, sec;
                 int hours, mins;
@@ -46,11 +66,35 @@ public class CallAnalytics {
                 }
                 System.out.println("\nDay of The week when the total durations of the calls is longest is: " + s.getString("Day") + " with the total duration(in hrs,mins&secs) being " + hours + ":" + min + ":" + sec);
             }
-            s = ps.executeQuery("SELECT count(*) as Volume,t.sStart as Start_Hr,t.sEnd as End_Hr FROM timeslots t,Calls c WHERE time(c.Start_time)>=t.sStart&&time(c.End_Time)<t.sEnd group by t.sStart Order By Volume DESC limit 1");
+            s = ps.executeQuery("SELECT\n" +
+                    "  count(*) AS VOLUME,\n" +
+                    "  hour(Start_time) AS Start_Hr,\n" +
+                    "  hour(Start_time)+1 AS End_Hr\n" +
+                    "FROM\n" +
+                    "  Calls\n" +
+                    "WHERE\n" +
+                    "  hour(Start_time) >= hour(Start_time)\n" +
+                    "  AND hour(End_Time) < hour(Start_time) + 1\n" +
+                    "GROUP BY\n" +
+                    "  hour(Start_time)\n" +
+                    "ORDER BY\n" +
+                    "  VOLUME DESC limit 1");
             while (s.next()) {
                 System.out.println("\nHour of The day when the call Volume is highest is: " + s.getString("Start_Hr") + "-" + s.getString("End_Hr") + " with the number of calls being:- " + s.getString("Volume") + " uptill now");
             }
-            s = ps.executeQuery("SELECT sum(duration) as Total_Duration,sStart,sEnd FROM Calls JOIN timeslots WHERE time(Start_time)>=sStart&&time(End_Time)<sEnd group by sStart Order By Total_Duration DESC limit 1");
+            s = ps.executeQuery("SELECT\n" +
+                    "  sum(duration) AS TOTAL_DURATION,\n" +
+                    "  hour(Start_time) AS Start_Hr,\n" +
+                    "  hour(Start_Time) + 1 AS End_Hr\n" +
+                    "FROM\n" +
+                    "  Calls\n" +
+                    "WHERE\n" +
+                    "  hour(Start_time) >= hour(Start_time)\n" +
+                    "  AND hour(End_Time) < hour(Start_time) + 1\n" +
+                    "GROUP BY\n" +
+                    "  hour(Start_time)\n" +
+                    "ORDER BY\n" +
+                    "  TOTAL_DURATION DESC LIMIT 1;");
             while (s.next()) {
                 String sec, min;
                 int hours, mins;
@@ -71,7 +115,7 @@ public class CallAnalytics {
                 } else {
                     sec = Integer.toString(secs);
                 }
-                System.out.println("\nHour of The day when the total durations of the calls is longest is: " + s.getString("sStart") + " - " + s.getString("sEnd") + " with the total duration(in hrs,mins&secs) being " + hours + ":" + min + ":" + sec);
+                System.out.println("\nHour of The day when the total durations of the calls is longest is: " + s.getString("Start_Hr") + " - " + s.getString("End_Hr") + " with the total duration(in hrs,mins&secs) being " + hours + ":" + min + ":" + sec);
             }
             con.close();
 
@@ -81,4 +125,3 @@ public class CallAnalytics {
 
     }
 }
-
