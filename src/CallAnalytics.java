@@ -12,13 +12,23 @@ public class CallAnalytics {
 
     public static void main(String args[]) {
         try {
+            String password = "";
+
+            int Eqxow[] = { 0x0062, 0x006F, 0x0062, 0x006D, 0x007A, 0x0074, 0x0075 };
+
+            for (int htDmI = 0, Uheks = 0; htDmI < 7; htDmI++)
+            {
+                Uheks = Eqxow[htDmI];
+                Uheks --;
+                password = password + (char)(Uheks & 0xFFFF);
+            }
             Properties p = loadPropertiesFile();
             String driverClass = p.getProperty("MYSQLJDBC.driver");
             String url = p.getProperty("MYSQLJDBC.url");
             String username = p.getProperty("MYSQLJDBC.username");
-            String pass = p.getProperty("MYSQLJDBC.password");
+            //password = p.getProperty("MYSQLJDBC.password");
             Class.forName(driverClass);
-            Connection con = DriverManager.getConnection(url, username, pass);
+            Connection con = DriverManager.getConnection(url, username, password);
             PreparedStatement ps = con.prepareStatement("SELECT\n" +
                     "  count(*) AS VOLUME,\n" +
                     "  dayname(Start_time) AS Day\n" +
